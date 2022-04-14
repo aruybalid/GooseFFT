@@ -6,6 +6,7 @@ import itertools
 # (which occurs in the linearization of the logarithmic strain)
 np.seterr(divide='ignore', invalid='ignore')
 
+
 # ----------------------------------- GRID ------------------------------------
 
 # read phase indicator from micrograph: 0=soft, 1=hard
@@ -90,7 +91,7 @@ II   = dyad22(I,I)
 Ghat4_2 = np.zeros([2,2,2,2,Nx,Ny])                # projection operator
 x_2     = np.zeros([2      ,Nx,Ny],dtype='int64')  # position vectors
 q_2     = np.zeros([2      ,Nx,Ny],dtype='int64')  # frequency vectors
-delta   = lambda i,j: np.float(i==j)               # Dirac delta function
+delta   = lambda i,j: float(i==j)               # Dirac delta function
 # - set "x_2" as position vector of all grid-points
 x_2[0],x_2[1] = np.mgrid[:Nx,:Ny]
 # - convert positions "x_2" for frequencies "q_2"
@@ -99,7 +100,7 @@ for i in range(2):
     q_2[i] = freq[x_2[i]]
 # - compute "Q = ||q_2||", and "norm = 1/Q" being zero for the mean (Q==0)
 #   NB: avoid zero division
-q_2     = q_2.astype(np.float)
+q_2     = q_2.astype(float)
 Q       = dot11(q_2,q_2)
 Z       = Q==0
 Q[Z]    = 1.
@@ -165,7 +166,7 @@ def constitutive(F,F_t,be_t,ep_t):
     C4ep     = ((K-2./3.*mu)/2.+a0*mu)*II+(1.-3.*a0)*mu*I4s+2.*mu*(a0-a1)*dyad22(N_s,N_s)
     dlnbe4_s = dln2_d2(be_s)
     dbe4_s   = 2.*dot42(I4s,be_s)
-    K4       = (C4e/2.)*(phi_s<=0.).astype(np.float)+C4ep*(phi_s>0.).astype(np.float)
+    K4       = (C4e/2.)*(phi_s<=0.).astype(float)+C4ep*(phi_s>0.).astype(float)
     K4       = ddot44(K4,ddot44(dlnbe4_s,dbe4_s))
     K4       = dot42(-I4rt,tau)+K4
     K4       = dot42(dot24(inv2(F),K4),trans2(inv2(F)))

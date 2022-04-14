@@ -2,7 +2,7 @@ import numpy as np
 import scipy.sparse.linalg as sp
 import itertools
 
-# turn of warning for zero division
+# turn off warning for zero division
 # (which occurs in the linearization of the logarithmic strain)
 np.seterr(divide='ignore', invalid='ignore')
 
